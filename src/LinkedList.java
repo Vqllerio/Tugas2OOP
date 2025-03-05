@@ -1,23 +1,23 @@
-class LinkedList<DataType> { 
-    static class Node<DataType> { 
-        DataType data;
-        Node<DataType> next;
+class LinkedList<AnyType> { 
+    static class Node<AnyType> { 
+        AnyType data;
+        Node<AnyType> next;
 
-        public Node(DataType data) {
+        public Node(AnyType data) {
             this.data = data;
             this.next = null;
         }
     }
     
-    private Node<DataType> head;
+    private Node<AnyType> head;
 
-    public void insert(DataType data) {
-        Node<DataType> newNode = new Node<>(data);
+    public void insert(AnyType data) {
+        Node<AnyType> newNode = new Node<>(data);
         if (head == null) {
             head = newNode;
             return;
         }
-        Node<DataType> current = head;
+        Node<AnyType> current = head;
         while (current.next != null) {
             current = current.next;
         }
@@ -25,7 +25,7 @@ class LinkedList<DataType> {
     }
 
     public void traverse() {
-        Node<DataType> current = head;
+        Node<AnyType> current = head;
         while (current != null) {
             System.out.print(current.data + ", ");
             current = current.next;
