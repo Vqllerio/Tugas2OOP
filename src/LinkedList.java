@@ -32,4 +32,14 @@ class LinkedList<AnyType> {
         }
         System.out.println("null");
     }
+
+    public void printlist() {
+        Node<AnyType> current = head;
+        int counter = 1;
+        while (current != null) {
+            System.out.println(counter+". "+current.data);
+            counter ++;
+            current = current.next;
+        }
+    }
 }
