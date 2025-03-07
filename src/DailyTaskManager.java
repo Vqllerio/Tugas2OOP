@@ -34,14 +34,16 @@ public class DailyTaskManager{
         while (true){
             //Tells your the menu options
             System.out.println("1. View Tasks\n"+
-                               "2. Edit Tasks\n"+
-                               "3. Exit\n"+
+                               "2. Exit\n"+
                                "Input a number Between 1 - 3 : ");
 
-            //user input for the menu, 1 is View Tasks, 2 is Edit Tasks, 3 is Exit the program.
+            //user input for the menu, 1 is View Tasks, and 2 is Exit the program.
             int userinputmenu = scanner.nextInt(); 
-
-            if (userinputmenu == 1){
+            
+            //checks first if the user's input is within the parameters
+            if (userinputmenu != 1 && userinputmenu != 2){
+                System.out.println("Your input is beyond our parameters, please try again.");
+            } else if (userinputmenu == 1){
                 System.out.print("\033c");
 
                 while (true){
@@ -71,13 +73,10 @@ public class DailyTaskManager{
                     }
                 }
                 } 
-            } else if (userinputmenu == 2){
+            } else {
                 System.out.print("\033c");
                 System.out.println("Closing the program");
                 break;
-            } else if (userinputmenu == 3){
-            } else {
-                System.out.println("Your input is beyond our parameters, please try again.");
             }
         }
         //close the scanner after the loop of the whole program is finished to save memory
