@@ -1,42 +1,37 @@
-public class Stack {
-    private int[] stackArray;
+public class Stack<T> { // <T> makes the stack generic
+    private T[] stackArray;
     private int top;
     private int capacity;
 
+    @SuppressWarnings("unchecked")
     public Stack(int size){
         capacity = size;
-        stackArray = new int[capacity];
+        stackArray = (T[]) new Object[capacity]; // Creating a generic array
         top = -1;
     }
 
-    public void push(int value){
-        if (top == capacity - 1){
-            System.out.println("Stack Overflow");
-            return;
+    public void push(T value){
+        if (top == capacity - 1) {
+            throw new StackOverflowError("Stack Overflow: Cannot push " + value);
         }
         stackArray[++top] = value;
     }
 
-    public int pop(){
-        if (isEmpty()){
-            System.out.println("Stack Underflow");
-            return -1;
+    public T pop(){
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack Underflow: Cannot pop from an empty stack.");
         }
         return stackArray[top--];
     }
 
-    public int peek(){
-        if (isEmpty()){
-            System.out.println("Stack is empty");
-            return -1;
+    public T peek(){
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty.");
         }
         return stackArray[top];
     }
 
-    public boolean isEmpty() {
+    public boolean isEmpty(){
         return top == -1;
-    }
-    public static void main(String[] args){
-        
     }
 }

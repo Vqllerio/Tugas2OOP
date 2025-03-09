@@ -1,50 +1,37 @@
 import java.util.Scanner;
 public class DailyTaskManager{
 
-    public static void clear(){
-        System.out.print("\033c");
-    }
-
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static void main(String[] args) throws Exception {
 
-        //border variable to quickly print borders between sections of CLI
-        String border = ("\n" + "=".repeat(20) + "\n");
-
-        //First and foremost, clears the terminal, standard good CLI program practice.
-        clear();
+        //First and foremost, clears the terminal, standard good CLI program practice i think...
+        Functions.clear();
 
         String beyondparameters = "Your Input is Beyond our Parameters, Please Try Again.";
 
-        Tasks listTasks = new Tasks();
-
-        @SuppressWarnings("rawtypes")
         LinkedList linkedlist = new LinkedList();
 
-        //initializes a linked list filled with values
-        for (String rltasks : listTasks.getTasks()){
+        //initializes a linked list filled with values from Tasks
+        for (String rltasks : Tasks.Genshintasks){
             linkedlist.insert(rltasks);
         }
 
-        //Arrat of Genshin Tasks
-        String arrStacks[] = {"Complete Dailies",
-                              "Do a world boss",
-                              "Craft shit, ig",
-                              "Stock up on Food Buffs",
-                              "Clear bosses",
-                              "Gather Materials",
-                              "Do world Puzzels"};
+        Tasks.loadTasksGenshin();
+        Tasks.loadTasksRL();
 
         //init a scanner object to be able to read from the terminal
         Scanner scanner = new Scanner(System.in);
 
+        Stack<String> stack = new Stack<>(10);
+
         //the beginning of the CLI
         System.out.print("Hello! Welcome to the DailyTaskManager");
         Thread.sleep(1500);
-        clear();
+        Functions.clear();
 
-        //Looping of the whole program!
+        //Looping of the whole program
         while (true){
+            
             //Tells your the menu options
             System.out.println("MAIN MENU:");
             System.out.println("1. View Tasks");
@@ -53,16 +40,10 @@ public class DailyTaskManager{
 
             //user input for the menu, 1 is View Tasks, and 2 is Exit the program.
             int userinputmenu = scanner.nextInt(); 
-            clear();
+            Functions.clear();
 
-            //checks first if the user's input is within the parameters
-            if (userinputmenu != 1 && userinputmenu != 2){
-                System.out.println(beyondparameters);
-            } 
-            
             //if the user is within the parameters, checks if the user chose to View Tasks.
-            else if (userinputmenu == 1){
-                System.out.print("\033c");
+            if (userinputmenu == 1){
 
                 //Looping to pick which tasks does the user want to view
                 while (true){
@@ -73,32 +54,98 @@ public class DailyTaskManager{
                 System.out.print("Input a number between 1 - 3 : ");
 
                 //prompts the user to enter what kind of task they want to view
-                int userinput = scanner.nextInt();
-                clear();
+                int inputint = scanner.nextInt();
+                Functions.clear();
 
                 //List of tasks made with an Array
-                if (userinput == 1){
+                if (inputint == 1){
 
                     //showing Genshin Impact Tasks
-                    System.out.println("Genshin Impact Tasks:");
-                    for (int i = 0; i < arrStacks.length; i++){
-                        System.out.println((i+1) +". " + arrStacks[i]);
-                    }
+                    Functions.displaygenshintask();
 
                     //menu part
                     System.out.println("Menu:");
                     System.out.println("1. Edit Tasks");
                     System.out.println("2. Back to Main Menu");
-                    int editorno1 = scanner.nextInt();
-                    clear();
+                    System.out.print("Input a Number Between 1 and 2 : ");
+                    inputint = scanner.nextInt();
+                    Functions.clear();
 
-                    if (editorno1 == 1){
+                    if (inputint == 1){
+                        Functions.displaygenshintask();
+                        System.out.println("Menu:");
+                        System.out.println("1. Mark a task as Completed");
+                        System.out.println("2. Undo Completed");
+                        System.out.println("3. Change a Task");
+                        System.out.println("4. Back");
+                        System.out.print("Input a Number Between 1 and 2 : ");
+                        inputint = scanner.nextInt();
+                        Functions.clear();
 
+                        if (inputint == 1) {
+
+                            System.out.println("Genshin Impact Tasks:");
+                            for (int i = 0; i < Tasks.Genshintasks.length; i++){
+                                System.out.println((i+1) +". " + Tasks.Genshintasks[i]);
+                            }
+
+                            System.out.print("Enter the number corresponding to the Task that you want to mark as complete : ");
+                            inputint = scanner.nextInt();
+
+                            for (int i = 0; i < Tasks.Genshintasks.length ; i ++){
+                                if (inputint == i+1){
+                                    System.out.println("Marking the task \""+ Tasks.Genshintasks[i]+"\" as completed.");
+                                    stack.push(Tasks.Genshintasks[i]);
+                                    Tasks.Genshintasks[i] = "\u001B[32m" + Tasks.Genshintasks[i] +"\u001B[0m";
+                                    Tasks.saveTasksGenshin();
+                                    Thread.sleep(800);
+                                }
+                            }
+                        } 
+                        else if (inputint == 2) {
+                            boolean truefalse = stack.isEmpty();
+                            if (truefalse = true) {
+                                System.out.println("There are no more saved previous actions");
+                            } 
+                            else {
+                                String elementtoundo = stack.pop();
+                                for (int i = 0 ; i < Tasks.Genshintasks.length ; i++){
+                                    if (Tasks.Genshintasks[i].contains(elementtoundo)) {
+                                        Tasks.Genshintasks[i] = elementtoundo;
+                                        Tasks.saveTasksGenshin();
+                                    }
+                                }
+                            }
+                        }
+                        else if (inputint == 3) {
+
+                            Functions.displaygenshintask();
+                            System.out.print("Enter the number corresponsing to the Task that you want to change : ");
+                            inputint = scanner.nextInt();
+                            scanner.nextLine();
+
+                            for (int i = 0; i < Tasks.Genshintasks.length; i++){
+                                if (inputint == i+1){
+                                    System.out.println("What do you want to change the task \"" + Tasks.Genshintasks[i] + "\" into?");
+                                    System.out.print("Enter your replacement task here : ");
+                                    String inputString = scanner.nextLine();
+                                    
+                                    System.out.println("Changing the task\"" + Tasks.Genshintasks[i] + "\" into " + inputString);
+                                    Tasks.updatetask1(i, inputString);
+                                    
+                                }
+                            }
+                        }
+                        else if (inputint == 4) {
+                        }
+                        else {
+                            System.out.println(beyondparameters);
+                        }
                     }
-                    else if (editorno1 == 2){
+                    else if (inputint == 2){
                         System.out.println("Going back to Main Menu...");
-                        Thread.sleep(1000);
-                        clear();
+                        Thread.sleep(800);
+                        Functions.clear();
                         break;
                     }
                     else {
@@ -107,26 +154,48 @@ public class DailyTaskManager{
                 } 
                 
                 //List of tasks made with and Linked List
-                else if (userinput == 2){
+                else if (inputint == 2){
                     System.out.println("Morning Routine:");
                     linkedlist.printlist();
-                    System.out.print("Do you want to edit your tasks?");
+
+                    //menu part
+                    System.out.println("Menu:");
+                    System.out.println("1. Edit Tasks");
+                    System.out.println("2. Back to Main Menu");
+                    System.out.print("Input a Number Between 1 and 2 : ");
+                    inputint = scanner.nextInt();
+                    Functions.clear();
+                    if (inputint == 1){
+                        System.out.println("Menu:");
+                        System.out.println("1. Mark a Task as Complete");
+                        System.out.println("2. Add a Task");
+                        System.out.println("3. Remove a Task");
+                    }
                 }
-                else {
+
+                else if (inputint == 3) {
                     System.out.println("Going back to the Main Menu...");
-                    Thread.sleep(1500);
-                    clear();
+                    Thread.sleep(800);
+                    Functions.clear();
                     break;
                 }
-                scanner.nextInt();
-                clear();
+
+                else {
+                    System.out.println(beyondparameters);
+                    Thread.sleep(800);
+                }
+                Functions.clear();
                 } 
-            } else {
-                clear();
+            } else if (userinputmenu == 2){
+                Functions.clear();
                 System.out.println("Closing the program...");
-                Thread.sleep(1500);
+                Thread.sleep(800);
                 break;
+            } else {
+                System.out.println(beyondparameters);
+                Thread.sleep(800);
             }
+        Functions.clear();
         }
         //close the scanner after the loop of the whole program is finished to save memory
         scanner.close();

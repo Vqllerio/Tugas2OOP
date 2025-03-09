@@ -37,7 +37,7 @@ class LinkedList<AnyType> {
         Node<AnyType> current = head;
         int counter = 1;
         while (current != null) {
-            System.out.println(counter+". "+current.data);
+            System.out.println(counter + ". " + current.data);
             counter ++;
             current = current.next;
         }
