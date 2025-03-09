@@ -53,6 +53,27 @@ class LinkedList<AnyType> {
         newNode.next = current.next;
         current.next = newNode;
     }
+
+    public void removeAt(int index) {
+        if (index == 0) {
+            head = head.next;
+            return;
+        }
+        Node<AnyType> current = head;
+        int currentIndex = 0;
+    
+        while (current != null && currentIndex < index - 1) {
+            current = current.next;
+            currentIndex++;
+        }
+    
+        if (current == null || current.next == null) {
+            throw new IndexOutOfBoundsException("Index out of bounds.");
+        }
+    
+        current.next = current.next.next;
+    }
+    
     
 
     public int checkLength(){

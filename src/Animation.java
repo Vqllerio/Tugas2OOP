@@ -1,0 +1,23 @@
+public class Animation {
+    public static String[] Frames = {" @                                             \n/|\\\n/ \\ ",
+                                     " @                                             \n/|\\\n/ \\ ",
+                                     " @                                             \n/|\\\n/ \\ ",
+                                     " @                                             \n/|\\\n/ \\ ",
+                                     " @__ Hello !                                   \n/| \n/ \\",
+                                     " @/  Hello !                                   \n/| \n/ \\",
+                                     " @__ Hello !                                   \n/| \n/ \\",
+                                     " @/  Hello !                                   \n/| \n/ \\",
+                                     " @__ Hello !                                   \n/| \n/ \\",
+                                     " @/  Hello !                                   \n/| \n/ \\",
+                                     " @__ Hello !                                   \n/| \n/ \\",
+                                     " @/  Hello !                                   \n/| \n/ \\",
+                                     " @__ Hello !                                   \n/| \n/ \\",
+                                     " @   Welcome to the Daily Task Manager (DTM)   \n<|>\n/ \\",
+                                     " @   Welcome to the Daily Task Manager (DTM)   \n<|>\n/ \\",
+                                     " @   Welcome to the Daily Task Manager (DTM)   \n<|>\n/ \\",
+                                     " @   Welcome to the Daily Task Manager (DTM)   \n<|>\n/ \\",
+                                     " @   Welcome to the Daily Task Manager (DTM)   \n<|>\n/ \\",
+                                     " @   Welcome to the Daily Task Manager (DTM)   \n<|>\n/ \\",
+                                     " @   Welcome to the Daily Task Manager (DTM)   \n<|>\n/ \\",
+                                     " @   Welcome to the Daily Task Manager (DTM)   \n<|>\n/ \\",};
+}

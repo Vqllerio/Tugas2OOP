@@ -10,9 +10,6 @@ public class DailyTaskManager{
         LinkedList linkedlist = new LinkedList();
 
         //initializes a linked list filled with values from Tasks
-        for (String rltasks : Tasks.RLtasks){
-            linkedlist.insert(rltasks);
-        }
 
         Tasks.loadTasksGenshin();
         Tasks.loadTasksRL(linkedlist);
@@ -25,6 +22,11 @@ public class DailyTaskManager{
 
         //the beginning of the CLI
         System.out.print("Hello! Welcome to the DailyTaskManager");
+        for (String frame : Animation.Frames){
+            System.out.print("\033[?25l\033[H");
+            System.out.print(frame);
+            Thread.sleep(80);
+        }
         Thread.sleep(1500);
         Functions.clear();
 
@@ -217,10 +219,18 @@ public class DailyTaskManager{
                             Tasks.saveTasksRL(linkedlist);
                         }
                         else if (inputint == 4){
+                            linkedlist.printlist();
+                            System.out.print("Enter at which point do you want to remove a task : ");
+                            inputint = scanner.nextInt();
+                            Functions.clear();
 
+                            System.out.println("Removing the task " + linkedlist.checkAt(inputint -1));
+                            linkedlist.removeAt(inputint - 1);
+                            Tasks.saveTasksRL(linkedlist);
                         }
                         else if (inputint == 5){
-
+                            Functions.backToMainMenu();
+                            break;
                         }
                         else {
                             Functions.beyondparam();
