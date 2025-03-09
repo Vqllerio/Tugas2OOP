@@ -8,4 +8,4 @@ selama proses pembuatan, fokus utamaku adalah program yang jadi dan bekerja, set
 
 proses pembelajaranku mulai dari pemahaman dalam materi yang diberikan pak kasmir, kemudian saya mengandalkan materi yang di berikan dalam e learn seperti balok kode stack, array, dan linked list, saya mamutuskan untuk membuat versi sendiri dari metode array, stack dan linkedlist seperti dalam e learn, guna mempelajari cara kerjanya mereka lebih dalam, dan menurutku hasilnya lumayan memuaskan, saya akan memutuskan untuk menggunakan import java util bila sudah fasih menggunakan array, linked list, dan stack.
 
-The main problem i'm having is with NESTED IFs, i am trying really hard to find alternatives to breakd down my code more to make my code not as nested as this current one
+The main problem i'm having is with NESTED IFs, i am trying really hard to find alternatives to breakd down my code more to make my code not as nested as this current one.

@@ -10,6 +10,26 @@ public class Functions {
         Thread.sleep(800);
     }
 
+    public static void startingAnimation() throws InterruptedException{
+        for (String frame : Animation.FramesOpening){
+            System.out.print("\033[?25l\033[H");
+            System.out.print(frame);
+            Thread.sleep(100);
+        }
+        Thread.sleep(1500);
+        clear();
+    }
+
+    public static void closingAnimation() throws InterruptedException{
+        for (String frame : Animation.FramesClosing){
+            System.out.print("\033[?25l\033[H");
+            System.out.print(frame);
+            Thread.sleep(100);
+        }
+        Thread.sleep(1500);
+        clear();
+    }
+
     public static void backToMainMenu() throws InterruptedException{
         System.out.println("Going back to the Main Menu...");
         Thread.sleep(800);
