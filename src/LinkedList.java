@@ -73,8 +73,6 @@ class LinkedList<AnyType> {
     
         current.next = current.next.next;
     }
-    
-    
 
     public int checkLength(){
         Node<AnyType> current = head;
