@@ -77,7 +77,7 @@ public class DailyTaskManager{
                         System.out.println("1. Mark a task as Completed");
                         System.out.println("2. Undo Completed");
                         System.out.println("3. Change a Task");
-                        System.out.println("4. Back");
+                        System.out.println("4. Back to Main Menu");
                         System.out.print("Input a Number Between 1 and 2 : ");
                         inputint = scanner.nextInt();
                         Functions.clear();
@@ -100,11 +100,12 @@ public class DailyTaskManager{
                                     Tasks.saveTasksGenshin();
                                     Thread.sleep(800);
                                 }
+                            Functions.clear();
                             }
                         } 
                         else if (inputint == 2) {
-                            boolean truefalse = stack.isEmpty();
-                            if (truefalse = true) {
+                            boolean stackisempty = stack.isEmpty();
+                            if (stackisempty = false) {
                                 System.out.println("There are no more saved previous actions");
                             } 
                             else {
@@ -116,6 +117,7 @@ public class DailyTaskManager{
                                     }
                                 }
                             }
+                            Functions.clear();
                         }
                         else if (inputint == 3) {
 
@@ -137,6 +139,10 @@ public class DailyTaskManager{
                             }
                         }
                         else if (inputint == 4) {
+                            System.out.println("Going back to the Main Menu...");
+                            Thread.sleep(800);
+                            Functions.clear();
+                            break;
                         }
                         else {
                             System.out.println(beyondparameters);
