@@ -1,4 +1,4 @@
-
+import java.util.Scanner;
 public class Functions {
 
     //Clears the terimnal for crisp CLI
@@ -14,19 +14,20 @@ public class Functions {
     }
 
     //Animate the frames from the array of frames in Animation.java (OPENING)
-    public static void startingAnimation() throws InterruptedException{
-        for (String frame : Animation.FramesOpening){
+    public static void startingAnimation(String name) throws InterruptedException{
+
+        for (String frame : Animation.FramesOpening(name)){
             System.out.print("\033[?25l\033[H");
             System.out.print(frame);
-            Thread.sleep(100);
+            Thread.sleep(200);
         }
         Thread.sleep(1500);
         clear();
     }
 
     //Animate the frames from the array of frames in Animation.java (CLOSING)
-    public static void closingAnimation() throws InterruptedException{
-        for (String frame : Animation.FramesClosing){
+    public static void closingAnimation(String name) throws InterruptedException{
+        for (String frame : Animation.FramesClosing(name)){
             System.out.print("\033[?25l\033[H");
             System.out.print(frame);
             Thread.sleep(100);

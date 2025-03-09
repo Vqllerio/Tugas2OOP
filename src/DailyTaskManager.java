@@ -21,8 +21,12 @@ public class DailyTaskManager{
         Stack<String> gstack = new Stack<>(10);
         Stack<String> rlstack = new Stack<>(10);
 
+        System.out.println("Before we start the program, we'd like to know your name :3");
+        System.out.print("You Name : ");
+        String name = scanner.nextLine();
+
         //the beginning of the CLI - starts with an animation of a stickman
-        Functions.startingAnimation();
+        Functions.startingAnimation(name);
 
         //Looping of the whole program
         while (true){
@@ -41,22 +45,29 @@ public class DailyTaskManager{
                 while (true){
                     mainLooping(scanner, rlstack, gstack, linkedlist);
                 } 
-            } else if (userinputmenu == 2){
+            } 
+
+            //Closes the program if the userinputmenu is 2
+            else if (userinputmenu == 2){
                 Functions.clear();
                 System.out.println("Closing the program...");
                 Thread.sleep(800);
                 break;
-            } else {
+            }
+            
+            //Expresses that the input is out of bounds, outside of the program's parameters
+            else {
                 Functions.beyondparam();
             }
+
         Functions.clear();
         }
 
         //close the scanner after the loop of the whole program is finished to save memory
         scanner.close();
 
-        //closing animation to say good bye to the user
-        Functions.closingAnimation();
+        //closing animation to say good bye to the user buh bye
+        Functions.closingAnimation(name);
     }
 
     private static void showMainMenu(){
@@ -74,22 +85,21 @@ public class DailyTaskManager{
         int inputint = scanner.nextInt();
         scanner.nextLine();
 
-        for (int i = 0; i < Tasks.Genshintasks.length; i++){
-            if (inputint == i+1){
-                System.out.println("What do you want to change the task \"" + Tasks.Genshintasks[i] + "\" into?");
-                System.out.print("Enter your replacement task here : ");
-                String inputString = scanner.nextLine();
-                Functions.clear();
-                
-                System.out.println("Changing the task\"" + Tasks.Genshintasks[i] + "\" into " + inputString);
-                Tasks.updatetaskgenshin(i, inputString);
-                
-            }
-        }
+        System.out.println("What do you want to change the task \"" + Tasks.Genshintasks[inputint - 1] + "\" into?");
+        System.out.print("Enter your replacement task here : ");
+
+        //Asking for input, to replace the task
+        String inputString = scanner.nextLine();
+        Functions.clear();
+
+        //User Input Validation, good stuff
+        System.out.println("Changing the task\"" + Tasks.Genshintasks[inputint - 1] + "\" into " + inputString);
+        Tasks.updatetaskgenshin(inputint - 1, inputString);
         Functions.clear();
     }
 
     private static void undoGenshinTask(Stack<String> gstack) throws InterruptedException{
+
         @SuppressWarnings("unused")
         boolean stackisempty = gstack.isEmpty();
         if (stackisempty = false){
@@ -105,6 +115,7 @@ public class DailyTaskManager{
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private static void undoRealLifeTask(Stack<String> rlstack, LinkedList linkedlist) throws InterruptedException{
+
         @SuppressWarnings("unused")
         boolean stackisempty = rlstack.isEmpty();
         if (stackisempty = false){
@@ -125,6 +136,7 @@ public class DailyTaskManager{
     }
 
     private static void markGenshinTaskComplete(int inputint, Scanner scanner, Stack<String> gstack) throws InterruptedException{
+
         Functions.displaygenshintask();
 
         System.out.print("Enter the number corresponding to the Task that you want to mark as complete : ");
@@ -142,7 +154,9 @@ public class DailyTaskManager{
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private static void markRealLifeComplete(int inputint, LinkedList linkedlist, Scanner scanner, Stack<String> rlstack) throws InterruptedException{
+
         linkedlist.printlist();
+
         System.out.print("Enter the number corresponding to the Task that you want to mark as complete : ");
         inputint = scanner.nextInt();
 
@@ -160,7 +174,9 @@ public class DailyTaskManager{
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private static void addNewTask(LinkedList linkedlist, int inputint, Scanner scanner){
+
         linkedlist.printlist();
+
         System.out.print("Enter at which point do you want to insert a task : ");
         inputint = scanner.nextInt();
         scanner.nextLine();
@@ -174,7 +190,9 @@ public class DailyTaskManager{
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private static void removeTask(LinkedList linkedlist, int inputint, Scanner scanner){
+
         linkedlist.printlist();
+
         System.out.print("Enter at which point do you want to remove a task : ");
         inputint = scanner.nextInt();
         Functions.clear();
@@ -185,7 +203,9 @@ public class DailyTaskManager{
     }
 
     private static void genshinTaskEditing(Scanner scanner, Stack<String> gstack, int inputint) throws InterruptedException{
+
         Functions.displaygenshintask();
+
         System.out.println("Menu:");
         System.out.println("1. Mark a task as Completed");
         System.out.println("2. Undo Completed");
@@ -215,7 +235,9 @@ public class DailyTaskManager{
 
     @SuppressWarnings("rawtypes")
     private static void realLifeTasksEditing(LinkedList linkedlist, int inputint, Scanner scanner, Stack<String> rlstack) throws InterruptedException{
+
         linkedlist.printlist();
+
         System.out.println("Menu:");
         System.out.println("1. Mark a Task as Complete");
         System.out.println("2. Undo Completed");
