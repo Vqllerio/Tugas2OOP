@@ -7,22 +7,21 @@ public class DailyTaskManager{
         //First and foremost, clears the terminal, standard good CLI program practice i think...
         Functions.clear();
 
-        String beyondparameters = "Your Input is Beyond our Parameters, Please Try Again.";
-
         LinkedList linkedlist = new LinkedList();
 
         //initializes a linked list filled with values from Tasks
-        for (String rltasks : Tasks.Genshintasks){
+        for (String rltasks : Tasks.RLtasks){
             linkedlist.insert(rltasks);
         }
 
         Tasks.loadTasksGenshin();
-        Tasks.loadTasksRL();
+        Tasks.loadTasksRL(linkedlist);
 
         //init a scanner object to be able to read from the terminal
         Scanner scanner = new Scanner(System.in);
 
-        Stack<String> stack = new Stack<>(10);
+        Stack<String> gstack = new Stack<>(10);
+        Stack<String> rlstack = new Stack<>(10);
 
         //the beginning of the CLI
         System.out.print("Hello! Welcome to the DailyTaskManager");
@@ -84,10 +83,7 @@ public class DailyTaskManager{
 
                         if (inputint == 1) {
 
-                            System.out.println("Genshin Impact Tasks:");
-                            for (int i = 0; i < Tasks.Genshintasks.length; i++){
-                                System.out.println((i+1) +". " + Tasks.Genshintasks[i]);
-                            }
+                            Functions.displaygenshintask();
 
                             System.out.print("Enter the number corresponding to the Task that you want to mark as complete : ");
                             inputint = scanner.nextInt();
@@ -95,33 +91,28 @@ public class DailyTaskManager{
                             for (int i = 0; i < Tasks.Genshintasks.length ; i ++){
                                 if (inputint == i+1){
                                     System.out.println("Marking the task \""+ Tasks.Genshintasks[i]+"\" as completed.");
-                                    stack.push(Tasks.Genshintasks[i]);
-                                    Tasks.Genshintasks[i] = "\u001B[32m" + Tasks.Genshintasks[i] +"\u001B[0m";
-                                    Tasks.saveTasksGenshin();
-                                    Thread.sleep(800);
+                                    gstack.push(Tasks.Genshintasks[i]);
+                                    Functions.markGenshinCompleted(i);
                                 }
                             Functions.clear();
                             }
                         } 
-                        else if (inputint == 2) {
-                            boolean stackisempty = stack.isEmpty();
-                            if (stackisempty = false) {
-                                System.out.println("There are no more saved previous actions");
+                        else if (inputint == 2){
+                            @SuppressWarnings("unused")
+                            boolean stackisempty = gstack.isEmpty();
+                            if (stackisempty = false){
+                                System.out.print("There are no more saved previous actions");
                             } 
                             else {
-                                String elementtoundo = stack.pop();
-                                for (int i = 0 ; i < Tasks.Genshintasks.length ; i++){
-                                    if (Tasks.Genshintasks[i].contains(elementtoundo)) {
-                                        Tasks.Genshintasks[i] = elementtoundo;
-                                        Tasks.saveTasksGenshin();
-                                    }
-                                }
+                                String elementUndo = gstack.pop();
+                                Functions.undoGenshinCompleted(elementUndo);
                             }
                             Functions.clear();
                         }
-                        else if (inputint == 3) {
+                        else if (inputint == 3){
 
                             Functions.displaygenshintask();
+
                             System.out.print("Enter the number corresponsing to the Task that you want to change : ");
                             inputint = scanner.nextInt();
                             scanner.nextLine();
@@ -133,38 +124,32 @@ public class DailyTaskManager{
                                     String inputString = scanner.nextLine();
                                     
                                     System.out.println("Changing the task\"" + Tasks.Genshintasks[i] + "\" into " + inputString);
-                                    Tasks.updatetask1(i, inputString);
+                                    Tasks.updatetaskgenshin(i, inputString);
                                     
                                 }
                             }
                         }
-                        else if (inputint == 4) {
-                            System.out.println("Going back to the Main Menu...");
-                            Thread.sleep(800);
-                            Functions.clear();
+                        else if (inputint == 4){
+                            Functions.backToMainMenu();
                             break;
                         }
                         else {
-                            System.out.println(beyondparameters);
+                            Functions.beyondparam();
                         }
                     }
                     else if (inputint == 2){
-                        System.out.println("Going back to Main Menu...");
-                        Thread.sleep(800);
-                        Functions.clear();
+                        Functions.backToMainMenu();
                         break;
                     }
                     else {
-                        System.out.println(beyondparameters);
+                        Functions.beyondparam();
                     }
                 } 
                 
                 //List of tasks made with and Linked List
                 else if (inputint == 2){
-                    System.out.println("Morning Routine:");
                     linkedlist.printlist();
 
-                    //menu part
                     System.out.println("Menu:");
                     System.out.println("1. Edit Tasks");
                     System.out.println("2. Back to Main Menu");
@@ -172,23 +157,91 @@ public class DailyTaskManager{
                     inputint = scanner.nextInt();
                     Functions.clear();
                     if (inputint == 1){
+                        linkedlist.printlist();
                         System.out.println("Menu:");
                         System.out.println("1. Mark a Task as Complete");
-                        System.out.println("2. Add a Task");
-                        System.out.println("3. Remove a Task");
+                        System.out.println("2. Undo Completed");
+                        System.out.println("3. Add a Task");
+                        System.out.println("4. Remove a Task");
+                        System.out.println("5. Back to Main Menu");
+                        System.out.print("Input a Number Between 1 - 5 : ");
+                        inputint = scanner.nextInt();
+                        Functions.clear();
+
+                        if (inputint == 1){
+                            linkedlist.printlist();
+                            System.out.print("Enter the number corresponding to the Task that you want to mark as complete : ");
+                            inputint = scanner.nextInt();
+
+                            for (int i = 0; i < linkedlist.checkLength() ; i ++){
+                                if (inputint == i+1){
+                                    System.out.println("Marking the task \""+ linkedlist.checkAt(i) +"\" as completed.");
+                                    rlstack.push((String) linkedlist.checkAt(i));
+                                    linkedlist.replaceAt(i, "\u001B[32m"+linkedlist.checkAt(i)+"\u001B[0m");
+                                    Tasks.saveTasksRL(linkedlist);
+                                    Thread.sleep(800);
+                                }
+                            Functions.clear();
+                            }
+                        }
+                        else if (inputint == 2){
+                            @SuppressWarnings("unused")
+                            boolean stackisempty = rlstack.isEmpty();
+                            if (stackisempty = false){
+                                System.out.print("There are no more saved previous actions");
+                            } 
+                            else {
+                                String elementUndo = rlstack.pop();
+                                System.out.println("Undoing " + elementUndo);
+                                for (int i = 0 ; i < linkedlist.checkLength() ; i++){
+                                    if (((String) linkedlist.checkAt(i)).contains(elementUndo)){
+                                        linkedlist.replaceAt(i, elementUndo);
+                                        Tasks.saveTasksRL(linkedlist);
+                                    }
+                                }
+                                Thread.sleep(800);
+                            }
+                            Functions.clear();
+                        }
+
+                        else if (inputint == 3){
+                            linkedlist.printlist();
+                            System.out.print("Enter at which point do you want to insert a task : ");
+                            inputint = scanner.nextInt();
+                            scanner.nextLine();
+                            System.out.print("Enter the task that you want to add :");
+                            String inputString = scanner.nextLine();
+                            Functions.clear();
+
+                            linkedlist.insertAt(inputString, inputint - 1);
+                            Tasks.saveTasksRL(linkedlist);
+                        }
+                        else if (inputint == 4){
+
+                        }
+                        else if (inputint == 5){
+
+                        }
+                        else {
+                            Functions.beyondparam();
+                        }
+                    }
+
+                    else if (inputint == 2){
+                        Functions.backToMainMenu();
+                    }
+                    else {
+                        Functions.beyondparam();
                     }
                 }
 
-                else if (inputint == 3) {
-                    System.out.println("Going back to the Main Menu...");
-                    Thread.sleep(800);
-                    Functions.clear();
+                else if (inputint == 3){
+                    Functions.backToMainMenu();
                     break;
                 }
 
                 else {
-                    System.out.println(beyondparameters);
-                    Thread.sleep(800);
+                    Functions.beyondparam();
                 }
                 Functions.clear();
                 } 
@@ -198,11 +251,11 @@ public class DailyTaskManager{
                 Thread.sleep(800);
                 break;
             } else {
-                System.out.println(beyondparameters);
-                Thread.sleep(800);
+                Functions.beyondparam();
             }
         Functions.clear();
         }
+
         //close the scanner after the loop of the whole program is finished to save memory
         scanner.close();
     }
