@@ -1,4 +1,3 @@
-import java.util.Scanner;
 public class Functions {
 
     //Clears the terimnal for crisp CLI

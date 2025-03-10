@@ -42,9 +42,7 @@ public class DailyTaskManager{
             if (userinputmenu == 1){
 
                 //Looping to pick which tasks does the user want to view
-                while (true){
-                    mainLooping(scanner, rlstack, gstack, linkedlist);
-                } 
+                mainLooping(scanner, rlstack, gstack, linkedlist);
             } 
 
             //Closes the program if the userinputmenu is 2
@@ -71,7 +69,7 @@ public class DailyTaskManager{
     }
 
     private static void showMainMenu(){
-            System.out.println("MAIN MENU:");
+            System.out.println("=====[MAIN MENU]=====");
             System.out.println("1. View Tasks");
             System.out.println("2. Exit");
             System.out.print("Input a Number Between 1 and 2 : ");
@@ -329,32 +327,28 @@ public class DailyTaskManager{
     @SuppressWarnings("rawtypes")
     private static void mainLooping(Scanner scanner, Stack<String> rlstack, Stack<String> gstack, LinkedList linkedlist) throws InterruptedException{
         
-        //Looping to pick which tasks does the user want to view
-        while (true){
-            System.out.println("Type of Tasks");
-            System.out.println("1. Genshin Impact Tasks");
-            System.out.println("2. Morning Routine");
-            System.out.println("3. Back to Menu");
-            System.out.print("Input a number between 1 - 3 : ");
+        System.out.println("Type of Tasks");
+        System.out.println("1. Genshin Impact Tasks");
+        System.out.println("2. Morning Routine");
+        System.out.println("3. Back to Menu");
+        System.out.print("Input a number between 1 - 3 : ");
 
-            //prompts the user to enter what kind of task they want to view
-            int inputint = scanner.nextInt();
-            Functions.clear();
+        //prompts the user to enter what kind of task they want to view
+        int inputint = scanner.nextInt();
+        Functions.clear();
 
-            switch (inputint){
-                case 1: //List of tasks made with an Array
-                genshinTasksMenu(inputint, scanner, gstack);
-                break;
-                case 2: //List of tasks made with and Linked List
-                realLifeTasksMenu(inputint, scanner, rlstack, linkedlist);
-                break;
-                case 3: //Goes back to the main menu if the input is 3
-                Functions.backToMainMenu();
-                break;
-                default: //Expresses that the input is out of bounds, out of the program's parameters
-                Functions.beyondparam();
-            }
-        } 
+        switch (inputint){
+            case 1: //List of tasks made with an Array
+            genshinTasksMenu(inputint, scanner, gstack);
+            break;
+            case 2: //List of tasks made with and Linked List
+            realLifeTasksMenu(inputint, scanner, rlstack, linkedlist);
+            break;
+            case 3: //Goes back to the main menu if the input is 3
+            Functions.backToMainMenu();
+            break;
+            default: //Expresses that the input is out of bounds, out of the program's parameters
+            Functions.beyondparam();
+        }
     }
-    
 }
