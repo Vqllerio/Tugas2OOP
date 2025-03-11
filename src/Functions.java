@@ -42,6 +42,19 @@ public class Functions {
         clear();
     }
 
+    //Input Validation again
+    public static void backtoPreviousMenu() throws InterruptedException{
+        System.out.println("Going back to the Previous Menu");
+        Thread.sleep(800);
+        clear();
+    }
+
+    public static void closeProgram() throws InterruptedException{
+        clear();
+        System.out.println("Closing the program...");
+        Thread.sleep(800);
+    }
+
     //Prints the array of genshin tasks and a number going from 1 to the number of genshin tasks
     public static void displaygenshintask(){
         System.out.println("Genshin Impact Tasks:");

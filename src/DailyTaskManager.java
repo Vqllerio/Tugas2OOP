@@ -47,9 +47,7 @@ public class DailyTaskManager{
 
             //Closes the program if the userinputmenu is 2
             else if (userinputmenu == 2){
-                Functions.clear();
-                System.out.println("Closing the program...");
-                Thread.sleep(800);
+                Functions.closeProgram();
                 break;
             }
             
@@ -68,6 +66,7 @@ public class DailyTaskManager{
         Functions.closingAnimation(name);
     }
 
+    //main menu of the program
     private static void showMainMenu(){
             System.out.println("=====[MAIN MENU]=====");
             System.out.println("1. View Tasks");
@@ -75,22 +74,24 @@ public class DailyTaskManager{
             System.out.print("Input a Number Between 1 and 2 : ");
     }
 
+    //change one of the genshin tasks
     private static void changeGenshinTask(Scanner scanner){
 
+        //shows the genshin tasks
         Functions.displaygenshintask();
 
+        //asking for input, which tasks do they want to change
         System.out.print("Enter the number corresponsing to the Task that you want to change : ");
         int inputint = scanner.nextInt();
         scanner.nextLine();
 
+        //asking for inupt, what to replace the task with
         System.out.println("What do you want to change the task \"" + Tasks.Genshintasks[inputint - 1] + "\" into?");
         System.out.print("Enter your replacement task here : ");
-
-        //Asking for input, to replace the task
         String inputString = scanner.nextLine();
         Functions.clear();
 
-        //User Input Validation, good stuff
+        //User Input Validation and actually replacing the task
         System.out.println("Changing the task\"" + Tasks.Genshintasks[inputint - 1] + "\" into " + inputString);
         Tasks.updatetaskgenshin(inputint - 1, inputString);
         Functions.clear();
@@ -200,75 +201,95 @@ public class DailyTaskManager{
         Tasks.saveTasksRL(linkedlist);
     }
 
+    //editing menu for genshin tasks
     private static void genshinTaskEditing(Scanner scanner, Stack<String> gstack, int inputint) throws InterruptedException{
 
-        Functions.displaygenshintask();
+        while (true) {
+        
+            //showing genshin tasks
+            Functions.displaygenshintask();
 
-        System.out.println("Menu:");
-        System.out.println("1. Mark a task as Completed");
-        System.out.println("2. Undo Completed");
-        System.out.println("3. Change a Task");
-        System.out.println("4. Back to Main Menu");
-        System.out.print("Input a Number Between 1 - 4 : ");
-        inputint = scanner.nextInt();
-        Functions.clear();
+            //menu part
+            System.out.println("Menu:");
+            System.out.println("1. Mark a task as Completed");
+            System.out.println("2. Undo Completed");
+            System.out.println("3. Change a Task");
+            System.out.println("4. Back to Main Menu");
+            System.out.print("Input a Number Between 1 - 4 : ");
+            inputint = scanner.nextInt();
+            Functions.clear();
+            
+            if (inputint < 4 && 4 > inputint){
+                switch (inputint) {
+                    case 1: // Marks a task as complete if the input is 1
+                    markGenshinTaskComplete(inputint, scanner, gstack);
+                    break;
+                    case 2: // Undo's a marked task if the input is 2
+                    undoGenshinTask(gstack);
+                    break;
+                    case 3: //Changes a task if the input is 3
+                    changeGenshinTask(scanner);
+                    break;
+                    default: //Expresses that the input is out of bounds, outside of the programs's parameters
+                    Functions.beyondparam();
+                }
+            }
 
-        switch (inputint) {
-            case 1: // Marks a task as complete if the input is 1
-            markGenshinTaskComplete(inputint, scanner, gstack);
-            break;
-            case 2: // Undo's a marked task if the input is 2
-            undoGenshinTask(gstack);
-            break;
-            case 3: //Changes a task if the input is 3
-            changeGenshinTask(scanner);
-            break;
-            case 4: //Goes back to the Main Menu if the input is 4
-            Functions.backToMainMenu();
-            break;
-            default: //Expresses that the input is out of bounds, outside of the programs's parameters
-            Functions.beyondparam();
+            //Goes back to the Main Menu if the input is 4
+            else {
+                Functions.backToMainMenu();
+                break;
+            }
         }
     }
 
+    //Editing menu for real life tasks
     @SuppressWarnings("rawtypes")
     private static void realLifeTasksEditing(LinkedList linkedlist, int inputint, Scanner scanner, Stack<String> rlstack) throws InterruptedException{
 
-        linkedlist.printlist();
+        while (true){
 
-        System.out.println("Menu:");
-        System.out.println("1. Mark a Task as Complete");
-        System.out.println("2. Undo Completed");
-        System.out.println("3. Add a Task");
-        System.out.println("4. Remove a Task");
-        System.out.println("5. Back to Main Menu");
-        System.out.print("Input a Number Between 1 - 5 : ");
+            //Showing real life tasks
+            linkedlist.printlist();
 
-        //Asking for userinput, choose between Mark Complete, Undo, Add Task, Remove Task, or Back to Main Menu.
-        inputint = scanner.nextInt();
-        Functions.clear();
+            //menu part
+            System.out.println("Menu:");
+            System.out.println("1. Mark a Task as Complete");
+            System.out.println("2. Undo Completed");
+            System.out.println("3. Add a Task");
+            System.out.println("4. Remove a Task");
+            System.out.println("5. Back to Main Menu");
+            System.out.print("Input a Number Between 1 - 5 : ");
 
-        switch (inputint){
-            case 1: //Marks a task as complete if the input is 1
-            markRealLifeComplete(inputint, linkedlist, scanner, rlstack);
-            break;
-            case 2: //Undo's a marked task
-            undoRealLifeTask(rlstack, linkedlist);
-            break;
-            case 3: //Adds a task to the linked list if the input is 3
-            addNewTask(linkedlist, inputint, scanner);
-            break;
-            case 4: //Removes a task to the linked list if the input is 4
-            removeTask(linkedlist, inputint, scanner);
-            break;
-            case 5: //Goes back to the main menu if the input is 5
-            Functions.backToMainMenu();
-            break;
-            default: //Expresses that the input is out of bounds, out of the program's parameters
-            Functions.beyondparam();
+            //Asking for userinput, choose between Mark Complete, Undo, Add Task, Remove Task, or Back to Main Menu.
+            inputint = scanner.nextInt();
+            Functions.clear();
+
+            if (inputint < 5 && 5 > inputint){
+                switch (inputint){
+                    case 1: //Marks a task as complete if the input is 1
+                    markRealLifeComplete(inputint, linkedlist, scanner, rlstack);
+                    break;
+                    case 2: //Undo's a marked task
+                    undoRealLifeTask(rlstack, linkedlist);
+                    break;
+                    case 3: //Adds a task to the linked list if the input is 3
+                    addNewTask(linkedlist, inputint, scanner);
+                    break;
+                    case 4: //Removes a task to the linked list if the input is 4
+                    removeTask(linkedlist, inputint, scanner);
+                    break;
+                    default: //Expresses that the input is out of bounds, out of the program's parameters
+                    Functions.beyondparam();
+                } 
+            }else { //Goes back to the main menu if the input is 5
+                Functions.backToMainMenu();
+                break;
+            }
         }
     }
 
+    //Genshin Tasks Menu
     private static void genshinTasksMenu(int inputint, Scanner scanner,Stack<String> gstack) throws InterruptedException{
         
         //showing Genshin Impact Tasks
@@ -277,7 +298,7 @@ public class DailyTaskManager{
         //menu part
         System.out.println("Menu:");
         System.out.println("1. Edit Tasks");
-        System.out.println("2. Back to Main Menu");
+        System.out.println("2. Back");
         System.out.print("Input a Number Between 1 and 2 : ");
         inputint = scanner.nextInt();
         Functions.clear();
@@ -287,13 +308,14 @@ public class DailyTaskManager{
             genshinTaskEditing(scanner, gstack, inputint);
             break;
             case 2: // Goes back to the Main menu if the input is 2
-            Functions.backToMainMenu();
+            Functions.backtoPreviousMenu();
             break;
             default : // Expresses that the input is out of bounds, outside of the program's parameters
             Functions.beyondparam();
         }
     }
 
+    //Real Life Tasks Menu
     @SuppressWarnings("rawtypes")
     private static void realLifeTasksMenu(int inputint, Scanner scanner, Stack<String> rlstack, LinkedList linkedlist) throws InterruptedException{
         
@@ -301,54 +323,55 @@ public class DailyTaskManager{
         linkedlist.printlist();
         System.out.println("Menu:");
         System.out.println("1. Edit Tasks");
-        System.out.println("2. Back to Main Menu");
+        System.out.println("2. Back");
         System.out.print("Input a Number Between 1 and 2 : ");
 
         //Asking for userinput, choose between edit the tasks shown or back to menu
         inputint = scanner.nextInt();
         Functions.clear();
 
-        //Edit Tasks if the input is 1
-        if (inputint == 1){
+        switch (inputint){
+            case 1: //Edit Tasks if the input is 1
             realLifeTasksEditing(linkedlist, inputint, scanner, rlstack);
-        }
-
-        //Goes back to the main menu if the input is 2
-        else if (inputint == 2){
-            Functions.backToMainMenu();
-        }
-
-        //Expresses that the input is out of bounds, out of the program's parameters
-        else {
+            break;
+            case 2: //Goes back to the main menu if the input is 2
+            Functions.backtoPreviousMenu();
+            break;
+            default: //Expresses that the input is out of bounds, out of the program's parameters
             Functions.beyondparam();
         }
     }
 
+    //main looping for the menus and types of tasks
     @SuppressWarnings("rawtypes")
     private static void mainLooping(Scanner scanner, Stack<String> rlstack, Stack<String> gstack, LinkedList linkedlist) throws InterruptedException{
         
-        System.out.println("Type of Tasks");
-        System.out.println("1. Genshin Impact Tasks");
-        System.out.println("2. Morning Routine");
-        System.out.println("3. Back to Menu");
-        System.out.print("Input a number between 1 - 3 : ");
+        while (true) {
+            System.out.println("Type of Tasks");
+            System.out.println("1. Genshin Impact Tasks");
+            System.out.println("2. Morning Routine");
+            System.out.println("3. Back to Menu");
+            System.out.print("Input a number between 1 - 3 : ");
 
-        //prompts the user to enter what kind of task they want to view
-        int inputint = scanner.nextInt();
-        Functions.clear();
+            //prompts the user to enter what kind of task they want to view
+            int inputint = scanner.nextInt();
+            Functions.clear();
 
-        switch (inputint){
-            case 1: //List of tasks made with an Array
-            genshinTasksMenu(inputint, scanner, gstack);
-            break;
-            case 2: //List of tasks made with and Linked List
-            realLifeTasksMenu(inputint, scanner, rlstack, linkedlist);
-            break;
-            case 3: //Goes back to the main menu if the input is 3
-            Functions.backToMainMenu();
-            break;
-            default: //Expresses that the input is out of bounds, out of the program's parameters
-            Functions.beyondparam();
+            if (inputint < 3 && 3 > inputint){
+                switch (inputint){
+                    case 1: //List of tasks made with an Array
+                    genshinTasksMenu(inputint, scanner, gstack);
+                    break;
+                    case 2: //List of tasks made with and Linked List
+                    realLifeTasksMenu(inputint, scanner, rlstack, linkedlist);
+                    break;
+                    default: //Expresses that the input is out of bounds, out of the program's parameters
+                    Functions.beyondparam();
+                }
+            } else { //Goes back to the main menu if the input is 3
+                Functions.backToMainMenu();
+                break;
+            }
         }
     }
 }
