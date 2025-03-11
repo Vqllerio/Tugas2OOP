@@ -1,4 +1,5 @@
 public class Animation {
+    //Stickman animation frames for opening the program (Hello)
     public static String[] FramesOpening(String name) {
         return new String[]{
         " @                                                          \n/|\\                        \n/ \\                        ",
@@ -25,6 +26,7 @@ public class Animation {
         }; 
     }
 
+    //Stickman animation frames for closing the program (goodbye)
     public static String[] FramesClosing(String name){
         return new String[]{
         " @                                                          \n/|\\                        \n/ \\                        ",

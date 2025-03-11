@@ -1,4 +1,5 @@
 import java.io.*;
+
 public class Tasks {
     public static String[] Genshintasks = {
         "Complete Dailies",
@@ -23,22 +24,25 @@ public class Tasks {
     private static final String genshinfile = "Genshin Tasks.txt";
     private static final String rlfile = "Real Life Tasks.txt";
 
+    //updates the index and then saves it
     public static void updatetaskgenshin(int index, String value) {
         Genshintasks[index] = value;
         saveTasksGenshin();
     }
 
+    //inits a write and for every task in Genshintasks it writes the task and a newline (to seperate them)
     static void saveTasksGenshin() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(genshinfile))) {
             for (String task : Genshintasks) {
                 writer.write(task);
                 writer.newLine();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) { //cacthes the error
+            exception.printStackTrace(); // helps indicate where the error is at if there is an error
         }
     }
 
+    //inits a reader and for every line in the genshintasks txt file, it adds it to Genshintasks.
     public static void loadTasksGenshin() {
         File file = new File(genshinfile);
         if (!file.exists()) return;
@@ -50,33 +54,35 @@ public class Tasks {
                     Genshintasks[i] = line;
                 }
             }
-        } catch (IOException exception) {
-            exception.printStackTrace();
+        } catch (IOException exception) { // cathes the error
+            exception.printStackTrace(); // helps indicate where the error is at if there is an error
         }
     }
 
+    //inits a writer and for every task in the reallifetask linked list, it writes the task and a new line (to seperate them)
     public static void saveTasksRL(LinkedList<String> linkedList) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(rlfile))) {
-            LinkedList.Node<String> current = linkedList.getHead(); // Get the head of the linked list
+            LinkedList.Node<String> current = linkedList.getHead();
 
             while (current != null) {
                 writer.write(current.data);
                 writer.newLine();
                 current = current.next;
             }
-        } catch (IOException exception) {
-            System.out.println("Error saving tasks: " + exception.getMessage());
+        } catch (IOException exception) { // catches the error
+            System.out.println("Error saving tasks: " + exception.getMessage()); //helps indicate where the error is at if there is an error
         }
     }
 
+    //inits a reader and for every line in the reallifeetasks txt file, it adds it to real life tasks linked list
     public static void loadTasksRL(LinkedList<String> linkedList) {
         try (BufferedReader reader = new BufferedReader(new FileReader(rlfile))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 linkedList.insert(line);
             }
-        } catch (IOException exception) {
-            System.out.println("Error loading tasks: " + exception.getMessage());
+        } catch (IOException exception) { // catches the error
+            System.out.println("Error loading tasks: " + exception.getMessage()); // helps indicate where the error is at if there is an error
         }
     }
 
